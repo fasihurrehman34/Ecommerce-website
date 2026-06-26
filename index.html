@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Product Search App</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f4f4f9;
+            padding: 20px;
+        }
+        .product-card {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        .product-card img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+        .card-body {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex-grow: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container text-center">
+        <h1 class="my-4">Product Search App</h1>
+
+        <div class="row g-2 justify-content-center mb-4">
+            <div class="col-auto">
+                <select id="categorySelect" class="form-select" onclick="filterProducts()">
+                    <option value="all">All Categories</option>
+                    <option value="clothes">Clothes</option>
+                    <option value="caps">Caps</option>
+                    <option value="watches">Watches</option>
+                    <option value="glases">Glases</option>
+                    <option value="shoes">Shoes</option>
+                </select>
+            </div>
+        </div>
+
+        <div id="productsGrid" class="row row-cols-1 row-cols-sm-2 row-cols-md-4 g-4"></div>
+    </div>
+
+    <script>
+        var products = [
+            {
+                name: "T-Shirts",
+                category: "clothes",
+                price: "$60",
+                image: "images.jpg"
+            },
+            {
+                name: "Cotton Hoodie",
+                category: "clothes",
+                price: "$40",
+                image: "https://images.unsplash.com/photo-1620799140408-edc6dcb6d633?w=400"
+            },
+            {
+                name: "Casual T-Shirt",
+                category: "clothes",
+                price: "$25",
+                image: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=400"
+            },
+            {
+                name: "Winter Sweater",
+                category: "clothes",
+                price: "$50",
+                image: "https://images.unsplash.com/photo-1614975058789-41316d0e2e9c?w=400"
+            },
+            {
+                name: "Goat Head Embroidered",
+                category: "caps",
+                price: "$15",
+                image: "https://i.etsystatic.com/34145471/r/il/eb1a48/4039841262/il_340x270.4039841262_gl7j.jpg"
+            },
+            {
+                name: "Trucker Cap",
+                category: "caps",
+                price: "$37",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQch519ZcHaxxA7E6sqk-yCKMQW_M8kXRC24bjvdz_fYw&s=10"
+            },
+            {
+                name: "Merchize Skateboard Skeleton cap",
+                category: "caps",
+                price: "$12",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8C_fRknIURMU6H4EFUUBEzQhjQv6ZScLxXhkIWijIWw&s=10"
+            },
+            {
+                name: "Tribute Printed Cap",
+                category: "caps",
+                price: "$25",
+                image: "https://static-01.daraz.pk/p/c5ecbc156b4c326a901938661b4335f2.jpg"
+            },
+            {
+                name: "Rolex Daytona",
+                category: "watches",
+                price: "$39,000",
+                image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIWW0OnoN4rOWlEhR8MSmZ_YKSR81p0kdsO2jJOIIyyw&s=10"
+            },
+            {
+                name: "Leather Strap Watch",
+                category: "watches",
+                price: "$120",
+                image: "https://images.unsplash.com/photo-1612817159949-195b6eb9e31a?w=400"
+            },
+            {
+                name: "Smart Watch",
+                category: "watches",
+                price: "$199",
+                image: "https://images.unsplash.com/photo-1508685096489-7aacd43bd3b1?w=400"
+            },
+            {
+                name: "Silver Sports Watch",
+                category: "watches",
+                price: "$135",
+                image: "https://images.unsplash.com/photo-1539874754764-5a96559165b0?w=400"
+            },
+            {
+                name: "Classic Sunglasses",
+                category: "glases",
+                price: "$45",
+                image: "https://images.unsplash.com/photo-1511499767150-a48a237f0083?w=400"
+            },
+            {
+                name: "Aviator Glasses",
+                category: "glases",
+                price: "$55",
+                image: "https://images.unsplash.com/photo-1508296695146-257a814070b4?w=400"
+            },
+            {
+                name: "Round Retro Glasses",
+                category: "glases",
+                price: "$30",
+                image: "https://images.unsplash.com/photo-1509695507497-903c140c43b0?w=400"
+            },
+            {
+                name: "Olwen Oversized Sunglasses",
+                category: "glases",
+                price: "$35",
+                image: "https://m.media-amazon.com/images/I/61-1MwH203L._AC_UY1000_.jpg"
+            },
+            {
+                name: "Sport Sneakers",
+                category: "shoes",
+                price: "$85",
+                image: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400"
+            },
+            {
+                name: "Running Shoes",
+                category: "shoes",
+                price: "$95",
+                image: "https://images.unsplash.com/photo-1539185441755-769473a23570?w=400"
+            },
+            {
+                name: "Leather Boots",
+                category: "shoes",
+                price: "$140",
+                image: "https://images.unsplash.com/photo-1608256246200-53e635b5b65f?w=400"
+            },
+            {
+                name: "Casual Loafers",
+                category: "shoes",
+                price: "$70",
+                image: "https://images.unsplash.com/photo-1549298916-b41d501d3772?w=400"
+            }
+        ]
+
+        function displayProducts(filteredList) {
+            var grid = document.getElementById("productsGrid")
+            grid.innerHTML = ""
+
+            var i = 0
+            while (i < filteredList.length) {
+                var item = filteredList[i]
+                
+                grid.innerHTML = grid.innerHTML + `
+                    <div class="col d-flex align-items-stretch">
+                        <div class="card product-card text-start shadow-sm w-100">
+                            <img src="${item.image}" class="card-img-top" alt="${item.name}">
+                            <div class="card-body">
+                                <div>
+                                    <h5 class="card-title text-truncate">${item.name}</h5>
+                                    <h6 class="card-subtitle mb-3 text-muted text-uppercase small">${item.category}</h6>
+                                </div>
+                                <p class="card-text fw-bold text-success fs-5 mb-0">${item.price}</p>
+                            </div>
+                        </div>
+                    </div>
+                `
+                i = i + 1
+            }
+        }
+
+        function filterProducts() {
+            var selectedCat = document.getElementById("categorySelect").value
+            var newList = []
+
+            var i = 0
+            while (i < products.length) {
+                var item = products[i]
+                var matchesCategory = (selectedCat === "all" || item.category === selectedCat)
+
+                if (matchesCategory) {
+                    newList.push(item)
+                }
+                i = i + 1
+            }
+
+            displayProducts(newList)
+        }
+
+        displayProducts(products)
+    </script>
+
+</body>
+</html>
